@@ -24,6 +24,7 @@ def false(objectes, tf, inter, fiter):
 def geo():
     f2 = pygame.font.Font(None, 60)
     sec = 4
+    fen = 0
     bo = True
     ans = True
     lex = 0
@@ -32,13 +33,14 @@ def geo():
     trush = False
     tex = str('')
     set_caption('ГеоИгра')
+    f1 = pygame.font.Font(None, 46)
     while sec:
         sec -= 1
         keys = pygame.key.get_pressed()
         pygame.display.update()
         sc.fill(MINT)
         texts = f2.render(str(sec), 1, RED1)
-        sc.blit(texts, (400, 320))
+        sc.blit(texts, (500, 320))
         pygame.time.delay(600)
         for i in pygame.event.get():
             if i.type == pygame.QUIT:
@@ -50,12 +52,13 @@ def geo():
     while bo:
         pygame.display.update()
         sc.fill(MINT)
+
         if ans:
             ran = random.randint(1, 4)
-            lex = random.randint(0, 1)
+            lex = random.randint(0, 3)
             lex1 = random.randint(1, 3)
             if ran == 1:  # треугольник
-                fig = 'tringle'
+                fig = 'треугольник'
                 if lex == 0:
                     tex = 'треугольник'
                 elif lex1 == 1:
@@ -65,7 +68,7 @@ def geo():
                 elif lex == 3:
                     tex = 'овал'
             elif ran == 2:  # круг
-                fig = 'circle'
+                fig = 'круг'
                 if lex == 0:
                     tex = 'круг'
                 elif lex1 == 1:
@@ -75,7 +78,7 @@ def geo():
                 elif lex == 3:
                     tex = 'овал'
             elif ran == 3:  # квадрат
-                fig = 'sqr'
+                fig = 'квадрат'
                 if lex == 0:
                     tex = 'квадрат'
                 elif lex1 == 1:
@@ -84,8 +87,8 @@ def geo():
                     tex = 'треугольник'
                 elif lex == 3:
                     tex = 'овал'
-            else: # овал
-                fig = 'oval'
+            else:  # овал
+                fig = 'овал'
                 if lex == 0:
                     tex = 'овал'
                 elif lex1 == 1:
@@ -95,16 +98,22 @@ def geo():
                 elif lex == 3:
                     tex = 'квадрат'
             ans = False
-
-        if fig == 'tringle':
+        text1 = f1.render(tex, 1, RED1)
+        sc.blit(text1, (350, 550))
+        text2 = f1.render(str(fen), 1, RED1)
+        sc.blit(text2, (10, 10))
+        if fig == 'треугольник':
             pygame.draw.lines(sc, BLACK, True, [[400, 300], [700, 300], [400, 80]], 3)
-        elif fig == 'circle':
+        elif fig == 'круг':
             pygame.draw.circle(sc, BLACK, (500, 300), 100)
-        elif fig == 'sqr':
+        elif fig == 'квадрат':
             pygame.draw.rect(sc, BLACK, (300, 180, 300, 275))
-        elif fig == 'oval':
+        elif fig == 'овал':
             pygame.draw.ellipse(sc, BLACK, (200, 250, 480, 300))
-
+        textt = f1.render('Правда', 1, DARKOLIVEGREEN)
+        sc.blit(textt, (850, 300))
+        textf = f1.render('Ложь', 1, RED2)
+        sc.blit(textf, (10, 300))
         keys = pygame.key.get_pressed()
         for i in pygame.event.get():
             if i.type == pygame.QUIT:
@@ -113,9 +122,13 @@ def geo():
                 return
             elif keys[pygame.K_RIGHT]:
                 ans = True
+                if fig == tex:
+                    fen += 1
             elif keys[pygame.K_LEFT]:
+                if fig != tex:
+                    fen += 1
                 ans = True
-    pygame.time.delay(10)
+    pygame.time.delay(1)
 
 def main():
     lister = (DARKGREEN, GREEN1, GREEN1)

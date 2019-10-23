@@ -23,13 +23,14 @@ def false(objectes, tf, inter, fiter):
 
 def geo():
     f2 = pygame.font.Font(None, 60)
-    sec = 4
-    fen = 0
+    sec, fen, lex, lex1, status_int = 4, 0, 0, 0, 10000
+    xs, ys = 400, 40
+    point = 3
+    point_str = 'X X X'
+    status_str = str()
     bo = True
     ans = True
-    lex = 0
     fig = str('')
-    lex1 = 0
     trush = False
     tex = str('')
     set_caption('ГеоИгра')
@@ -110,10 +111,31 @@ def geo():
             pygame.draw.rect(sc, BLACK, (300, 180, 300, 275))
         elif fig == 'овал':
             pygame.draw.ellipse(sc, BLACK, (200, 250, 480, 300))
+
         textt = f1.render('Правда', 1, DARKOLIVEGREEN)
         sc.blit(textt, (850, 300))
         textf = f1.render('Ложь', 1, RED2)
         sc.blit(textf, (10, 300))
+
+        if status_int > 5000:
+            status_str = DARKOLIVEGREEN
+        elif status_int > 2000:
+            status_str = CADMIUMYELLOW
+        elif status_int < 0:
+            bo = False
+        else:
+            status_str = RED2
+        status_int -= 1
+        xs -= 0.04
+        pygame.draw.rect(sc, status_str, (300, 10, xs, ys))
+        if point == 2:
+            point_str = 'X X'
+        elif point == 1:
+            point_str = 'X'
+        elif point == 0:
+            bo = False
+        textt = f1.render(point_str, 1, DARKOLIVEGREEN)
+        sc.blit(textt, (850, 100))
         keys = pygame.key.get_pressed()
         for i in pygame.event.get():
             if i.type == pygame.QUIT:
@@ -124,11 +146,33 @@ def geo():
                 ans = True
                 if fig == tex:
                     fen += 1
+                else:
+                    point -= 1
             elif keys[pygame.K_LEFT]:
                 if fig != tex:
                     fen += 1
+                else:
+                    point -= 1
                 ans = True
-    pygame.time.delay(1)
+        pygame.time.delay(1)
+    sec = 5
+    shet = pygame.font.Font(None, 60)
+    textex = str('Счёт: ' + str(fen))
+    textit = shet.render(textex, 1, RED1)
+    while sec:
+        sec -= 1
+        keys = pygame.key.get_pressed()
+        pygame.display.update()
+        sc.fill(MINT)
+        sc.blit(textit, (390, 320))
+        pygame.time.delay(600)
+        for i in pygame.event.get():
+            if i.type == pygame.QUIT:
+                exit()
+            if keys[pygame.K_DOWN]:
+                return
+        pygame.time.delay(10)
+
 
 def main():
     lister = (DARKGREEN, GREEN1, GREEN1)
